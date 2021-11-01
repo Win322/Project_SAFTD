@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from UI_lke2_1 import Ui_SAFTD
-from PyQt5.QtCore import QSettings, QDateTime, QDate
+# from PyQt5.QtCore import QSettings, QDateTime, QDate
 from datetime import datetime
 from PyQt5.Qt import *
 
@@ -8,9 +8,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 from docxtpl import DocxTemplate
-from docx2pdf import convert
-
-from docx2pdf import convert
+# from docx2pdf import convert
 
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
@@ -70,8 +68,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_SAFTD):
 
         self.indexColumn = 6
         self.indexColumn_2 = 9
-
+        #
         # self.pushButton.clicked.connect(self.check_date)
+        #
         self.pushButton_2.clicked.connect(self.buttonExport)
 
         self.toolButton.clicked.connect(self.toolDirectorySave)
@@ -82,11 +81,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_SAFTD):
 
         self.pushButton_4.clicked.connect(self.buttonAddtable3)
         self.pushButton_5.clicked.connect(self.buttonDeleteTable3)
-
-        self.pushButton_9.clicked.connect(self.buttonChartPh)
+        #
+        # self.pushButton_9.clicked.connect(self.buttonChartPh)
         #
         self.pushButton.clicked.connect(self.buttonDialog)
-        #
+
 
     def toolDirectorySave(self):
         directory_file = QFileDialog.getExistingDirectory()
@@ -624,8 +623,38 @@ class Dialog(QDialog, Ui_Dialog):
         super().__init__()
         self.setupUi(self)
 
-    def checkBox(self):
-        pass
+        self.pushButton.clicked.connect(self.load_data)
+
+        self.checkBox.stateChanged.connect(self.state_cb)
+        self.checkBox_2.stateChanged.connect(self.state_cb_2)
+        self.checkBox_3.stateChanged.connect(self.state_cb_3)        
+        
+    def load_data(self, state):
+        print(f'Загрузить данные и закрыть диалоговое окно') 
+
+        if check_protocol != True and check_journal != True:
+            print("Оба не чек")
+
+        if check_protocol == True or check_journal == True:
+            print("Оба чек")
+
+        self.hide()
+        
+    def state_cb(self, state):
+        if state:
+            check_protocol = True
+            print(f'Выполните заполнение документа (checkBox={state})') # Протокл
+
+    def state_cb_2(self, state):
+        if state:
+            check_journal = True
+            print(f'Выполните заполнение документа (checkBox_2={state})') # Журнал
+
+    def state_cb_3(self, state):
+        if state:
+            check_check_date = True
+            print(check_check_date)
+            print(f'Что-то надо проверить на истечение срока действия (checkBox_3={state})') # Проверка на истечение даты
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
